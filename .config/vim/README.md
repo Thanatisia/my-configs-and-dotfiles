@@ -1,6 +1,6 @@
-# Neovim Dotfiles
+# Vim Dotfiles
 
-- My (current) Neovim configs and files
+- My (current) Vim configs and files
 
 ## Table of Contents
 > Pre-Requisites

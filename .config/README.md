@@ -16,15 +16,16 @@ Clone
 	2. Sparse Checkout
 		- This works by specifying the specific path you want to download
 		- In this case : .config
-		- Please refer to my guide on sparse checkout here : [Sparse Checkout](https://github.com/Thanatisia/SharedSpace/blob/main/Docs/Git/10. Cloning a repository.txt)
+		- Please refer to my guide on sparse checkout here : 
+			["Sparse Checkout"]("https://github.com/Thanatisia/SharedSpace/blob/main/Docs/Git/10. Cloning a repository.txt")
 
 		[Experimental]
 
-		mkdir .config && cd .config
-		git remote add origin https://github.com/Thanatisia/my-configs-and-dotfiles
-		git sparse-checkout init
-		git sparse-checkout set ".config"
-		git sparse-checkout list
-		git pull origin main
+		- mkdir .config && cd .config
+		- git remote add origin https://github.com/Thanatisia/my-configs-and-dotfiles
+		- git sparse-checkout init
+		- git sparse-checkout set ".config"
+		- git sparse-checkout list
+		- git pull origin main
 
 

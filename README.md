@@ -8,7 +8,7 @@ Links
 ## Links
 - All Configs : [.config](.config/README.md)
 
-- Neovim      : [Neovim](.config/nvim/README.md)
+- Neovim      : [.config/nvim](.config/nvim/README.md)
 
-- Vim         : [Vim](.config/vim/README.md)
+- Vim         : [.config/vim](.config/vim/README.md)
 

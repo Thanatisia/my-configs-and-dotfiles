@@ -1,0 +1,2 @@
+init.vim=~./.config/nvim
+.vimrc=~/.config/vim

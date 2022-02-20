@@ -1,0 +1,10 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =8
+let g:netrw_dirhist_8='T:/Backups/Personal/Zachary/Freelance/Projects/Fiverr/arya65/Start-2022-10-02/Workspace'
+let g:netrw_dirhist_7='T:\Backups\Personal\Zachary\Freelance\Projects\Fiverr\arya65\Start-2022-10-02\Workspace'
+let g:netrw_dirhist_6='T:\Backups\Personal\Zachary\Education\SIM\Double Degree in Bachelor of Computer Science (CyberSecurity + Digital Systems Security)\CSCI251 - Advanced Programming\Lecture\2022-02-07\Examples\s4f_3 - Boat'
+let g:netrw_dirhist_5='C:\Users\Zachary\Desktop\Main_Workspace\portable\Utilities\Text Editor\Neovim Windows\nvim-win64_20220126_1322H_v0.7.0-dev+923-gecec95712\data\nvim\vimfiles'
+let g:netrw_dirhist_4='C:/Users/Zachary/Desktop/Main_Workspace/portable/Utilities/Text Editor/Neovim Windows/nvim-win64_20220126_1322H_v0.7.0-dev+923-gecec95712'
+let g:netrw_dirhist_3='C:\Users\Zachary\Desktop\Main_Workspace\portable\Utilities\Text Editor\Neovim Windows\nvim-win64_20220126_1322H_v0.7.0-dev+923-gecec95712'
+let g:netrw_dirhist_2='C:/Users/Zachary/Desktop/Main_Workspace/portable/Utilities/Text Editor/Neovim Windows/nvim-win64_20220126_1322H_v0.7.0-dev+923-gecec95712/Neovim/share/nvim/runtime'
+let g:netrw_dirhist_1='C:\Users\Zachary\Desktop\Main_Workspace\portable\Utilities\Text Editor\Neovim Windows\nvim-win64_20220126_1322H_v0.7.0-dev+923-gecec95712\-9223372036854775808'

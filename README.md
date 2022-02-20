@@ -6,7 +6,9 @@ Contains config and dotfiles of profiles for ricing and backup
 Links
 
 ## Links
-> All Configs : [Configs](.config/README.md)
-> Neovim      : [Configs](.config/nvim/README.md)
-> Vim         : [Configs](.config/vim/README.md)
+- All Configs : [.config](.config/README.md)
+
+- Neovim      : [Neovim](.config/nvim/README.md)
+
+- Vim         : [Vim](.config/vim/README.md)
 

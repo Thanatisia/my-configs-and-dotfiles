@@ -11,6 +11,8 @@
 "   [4] : 2022-01-29 1657H, Asura
 "   [5] : 2022-01-30 0021H, Asura
 "   [6] : 2022-02-09 2004H, Asura
+"   [7] : 2022-02-13 2347H, Asura
+"   [8] : 2022-02-19 2318H, Asura
 " Changelogs:
 "	[0] : Version 0.1.a.2022-01-25_2206H
 "		- Commented out gVim Windows default command (Uncomment to use)
@@ -40,6 +42,31 @@
 "       - Added Remap to
 "           - Wrap selected lines with quotation marks
 "           - Move lines up and down
+"   [7] : Version 0.35.a.2022-02-13_2347H
+"       - Added remap to
+"           - Refresh current file (:so %)
+"           - Show Help
+"           - Show VimRC Path/File
+"       - Updated
+"           - Buffer config remap with expr and input()
+"           - Git config remap with expr and input()
+"       - Moved Plugin-specific settings and remaps to the top under the plugin controls
+"       - Moved Variables above Plugins for global use
+"       - Added colorschemes
+"           - monokai
+"           - ayu
+"       - Added 'set termguicolors'
+"       - Added dictionary for plugin parameters
+"       - Modified Plug to include dictionary (Additional Parameters for Plugins)
+"       - Added Plugin 'autocomplete'
+"           - Added setting to change coc's home path (g:coc_config_home)
+"           - Added other settings to coc
+"   [8] : Version 0.4.a.2022-02-19_2318H
+"       - Created area [snippets]
+"       - Seperated all the plugin-specific settings and remaps into
+"           individual script files in 'plugin-configs' folder
+"       - Added setting to remove all errorbell sounds (i.e. when pressing escape in insert mode)
+"       - Moved plug install line of codes to 'plugin/experimental.vim' in a function
 "==========================================================================================
 
 "===========================
@@ -67,59 +94,6 @@
 "--- Set Windows-specific VimRC configs
 "Make vim follow linux vim's keybinding and config styles (ignore mswin.vim)
 	:behave xterm
-
-"------------------------------------------------------------------------
-
-"===========================
-" Plugins
-"===========================
-"let plugins=[
-            ""\ Colorscheme
-            "\'morhetz/gruvbox',
-            ""\ Autocompletion            
-            ""\ neoclide/coc.nvim
-            ""\ File Browser
-            "\'scrooloose/nerdtree',
-            ""\ NERDTree Expansion Plugin
-            "\'Xuyuanp/nerdtree-git-plugin',
-            "\'tiagofumo/vim-nerdtree-syntax-highlight',
-            ""\ Font pack
-            "\'ryanoasis/vim-devicons',
-            ""\ Git Utility
-            "\'airblade/vim-gitgutter',
-            ""\ File Fuzzy Finder
-            "\'ctrlpvim/ctrlp.vim',
-            ""\ Multiline Commenter
-            "\'scrooloose/nerdcommenter',
-            ""\ Status Line
-            "\'vim-airline/vim-airline',
-            "\]
-
-" Start Plugin
-	call plug#begin()
-
-" List Plugins
-" - Dynamically Plug all plugins specified in the list [plugins]
-" - Makes it easy to modify the plugins by commenting out the package in the
-"   list, or uncommenting it in the list
-" Syntax : Plug 'author/project'
-    "for plugin in plugins
-        "" Plug 'morhetz/gruvbox'
-        "let curr_plugin='''' . plugin . ''''
-        "execute 'Plug ' . curr_plugin
-    "endfor
-    Plug 'morhetz/gruvbox'
-    Plug 'scrooloose/nerdtree'
-    Plug 'Xuyuanp/nerdtree-git-plugin'
-    Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-    Plug 'ryanoasis/vim-devicons'
-    Plug 'airblade/vim-gitgutter'
-    Plug 'ctrlpvim/ctrlp.vim'
-    Plug 'scrooloose/nerdcommenter'
-    Plug 'vim-airline/vim-airline'
-
-" End Plugin
-   	call plug#end()
 
 "------------------------------------------------------------------------
 
@@ -157,7 +131,142 @@ else
     let key_Compile_Run='<F7>'
 endif
         
-let vimcfg=vimhome . vimfldr
+let g:vimcfg=vimhome . vimfldr
+
+"Constants
+	let mapleader=","
+    "let &shell='cmd.exe'
+
+"------------------------------------------------------------------------
+
+"===========================
+" Plugins
+"===========================
+
+" Start Plugin
+	call plug#begin()
+
+" List Plugins
+" - Dynamically Plug all plugins specified in the list [plugins]
+" - Makes it easy to modify the plugins by commenting out the package in the
+"   list, or uncommenting it in the list
+" Syntax : Plug 'author/project', { 'key' : 'value' }
+
+    " Colorscheme
+    Plug 'morhetz/gruvbox'
+    Plug 'crusoexia/vim-monokai'
+    Plug 'ayu-theme/ayu-vim'
+    Plug 'kyoz/purify', {'rtp' : 'vim'}
+    Plug 'pgdouyon/vim-yin-yang'
+    " Tree File Browser
+    Plug 'ptzz/lf.vim'
+    Plug 'scrooloose/nerdtree'
+    " Font Pack
+    "Plug 'be5invis/Iosevka'
+    "Plug 'ryanoasis/nerd-fonts'
+    " Icon Pack
+    Plug 'ryanoasis/vim-devicons'
+    " Git Utility
+    Plug 'airblade/vim-gitgutter'
+    " Fuzzy File Finder
+    Plug 'ctrlpvim/ctrlp.vim'
+    Plug 'junegunn/fzf', { 'dir' : g:vimcfg . '/plugins/.fzf' , 'do' : { -> fzf#install() } }
+    Plug 'junegunn/fzf.vim'
+    " Multiline Commenter
+    Plug 'scrooloose/nerdcommenter'
+    " Status Line
+    Plug 'vim-airline/vim-airline'  
+    " Auto/Tab Completion
+    Plug 'ervandew/supertab'       
+    Plug 'neoclide/coc.nvim', {'branch' : 'release'}
+    " Floating Terminal
+    Plug 'voldikss/vim-floaterm'
+    " General Utility
+    Plug 'liuchengxu/vim-which-key'
+    Plug 'vimwiki/vimwiki'
+    " Expansion Plugin
+        " NERDTree Expansion Plugin
+            Plug 'Xuyuanp/nerdtree-git-plugin'
+            Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+        " nerd font
+            "Plug 'lambdalisue/nerdfont.vim'
+    " Editor/Vim-flavor Specific
+    if has('nvim')
+        " Neovim Specific
+
+        " Dependencies
+    endif
+
+" End Plugin
+   	call plug#end()
+
+"=========================
+" VimRC - Plugin Settings
+"=========================
+
+" Place just the plugin name here
+let plugin_names = [
+            \ 'ayu',
+            \ 'coc',
+            \ 'ctrlp',
+            \ 'fzf',
+            \ 'fzf-vim',
+            \ 'lf-vim',
+            \ 'nerdtree',
+            \ 'purify',
+            \ 'supertab',
+            \ 'vim-floaterm',
+            \ 'which-key',
+            \ 'vimwiki'
+            \ ]
+
+let plugin_cfg_path = g:vimcfg . '/plug-configs/'
+
+" Check if folder exists
+if !isdirectory(plugin_cfg_path)
+    " If directory does not exist
+    " make directory
+    call mkdir(plugin_cfg_path, "p")
+endif
+
+" Source all plugin configs stated in list [plugin_names] if exists
+for plugin in plugin_names
+    let curr_plugin_cfg_file = plugin_cfg_path . plugin . '.vim'
+    if !filereadable(curr_plugin_cfg_file)
+        " If file doesnt exist
+        " - Create
+        let file_contents = [
+                    \ '"'                       ,
+                    \ '" ' . plugin             ,
+                    \ '"'                       ,
+                    \ ''                        , 
+                    \ '"================='      ,
+                    \ '" Plugin Settings '      ,
+                    \ '"================='      ,
+                    \ ''                        ,
+                    \ '"==================='    ,
+                    \ '" Plugin Remappings '    ,
+                    \ '"==================='
+                    \ ]
+	    call writefile(file_contents, curr_plugin_cfg_file, "a")
+    endif
+
+    " File Exists/Created
+    " - Source
+    execute 'source ' . curr_plugin_cfg_file
+endfor
+
+"======================
+" VimRC - Plugin Remaps 
+"======================
+
+" Plugin Manager
+    " Install Plugin
+        nmap <leader>pi :so %<CR><esc>:PlugInstall<CR>
+    " Upgrade Plugin
+        nmap <leader>pu :PlugUpdate<CR>
+    " Clean Plugin
+        nmap <leader>pc :PlugClean<CR>
 
 "-----------------------------------------------------------------------
 
@@ -165,13 +274,17 @@ let vimcfg=vimhome . vimfldr
 " VimRC - Set Global Settings
 " ===========================
 
-"Constants
-	:let mapleader=","
-"Enable
+"General Settings
+    set nocompatible
+    filetype on
+    filetype plugin on
+    filetype indent on
 	syntax enable
 "Set Font
-"set guifont=Terminal
+    "set guifont=Terminal
     set guifont="Roboto Mono"
+    "set guifont="Iosevka"
+    set encoding=UTF-8
 "Set Tab Spaces to 4 spaces
 	set expandtab
 	set tabstop=4
@@ -194,40 +307,28 @@ let vimcfg=vimhome . vimfldr
     set path+=**                        " ** indicates to search all files and directories and in all subdirectories of that directory
     set cursorline                      " Highlight current line
     set mouse=a
+"Set for auto/tab completion
+    set wildmode=list:longest,full
+    set wildmenu
+    set completeopt+=menu,longest
 "Set Toggles
     set pastetoggle=<F3>
 "Disable Options
 	set noautoindent
 	set nowrap
 	set noerrorbells
+    set noeb vb t_vb=
 	set nobackup
 	set noswapfile
 	set noundofile
 
-"Filetype specific
-"    filetype on
-"    filetype plugin on
-"    filetype indent on
-
 "Set Colorscheme
+    set termguicolors
     set t_Co=256
-    :colorscheme gruvbox
-
-"let &shell='cmd.exe'
-
-"=========================
-" VimRC - Plugin Settings
-"=========================
-
-" COC settings
-    let g:coc_global_extensions = [
-                \ 'coc-snippets',
-                \ 'coc-pairs',
-                \ 'coc-eslint',
-                \ 'coc-prettier',
-                \ 'coc-json',
-                \ ]
-
+    " :colorscheme gruvbox
+    " :colorscheme ayu
+    " :colorscheme monokai
+    :colorscheme purify
 
 "------------------------------------------------------------------------
 
@@ -237,10 +338,20 @@ let vimcfg=vimhome . vimfldr
 
 " General
     " Center the screen
-    nnoremap <leader><Space> zz
+        nnoremap <leader><Space> zz
+" Important
+    " Reload Current File
+        silent nnoremap <leader>rf :e!<CR>
+    " Re-source Current File
+        silent nnoremap <leader>rs :so %<CR> 
+    " Re-source VimRC
+        silent nnoremap <expr> <leader>rvimrc ':so ' . vimcfg . '/.vimrc <CR>'
+    " Refresh File
+        nnoremap <leader><F5> :e!<CR>
+" Bug-Fixing
 " Quality of Life
     " Wrap selected texts in Quotation Marks '"'
-        vnoremap " <esc>`>a"<esc>`<i"<esc>vnoremap " <esc>`>a"<esc>`<i"<esc>
+        vnoremap " <esc>`>a"<esc>`<i"<esc>
 " Movement
 	vnoremap J :m '>+1<CR>gv=gv		
 	vnoremap K :m '<-2<CR>gv=gv		
@@ -256,6 +367,7 @@ let vimcfg=vimhome . vimfldr
 	nmap <C-a> ggvG
 	imap <C-a> <Esc>ggvG
 " Undo
+    vnoremap <C-z> <esc>u
 	nmap <C-Z> u
 	imap <C-Z> <Esc>ui
 " Redo
@@ -322,7 +434,7 @@ let vimcfg=vimhome . vimfldr
     " Open Buffers
         nnoremap <leader>sb :buffers<CR>
     " Movement - Move from Splits to Tab (Split from Tab)
-        nnoremap <leader>sft :sb#buffer_ID
+        nnoremap <expr> <leader>sft ":sb#" . input("Tab Number: ") . "<CR>"
 " Open File/Tree Explorer
 	nmap <leader>ne :Explore /path/to/file
 	nmap <leader>n :Explore<CR>
@@ -332,10 +444,10 @@ let vimcfg=vimhome . vimfldr
 " Compilation - via makefile
     nmap <leader>mf :!make<CR>
 " Version Control : Git
-    nmap <leader>ga :!git add
-    nmap <leader>gc :!git commit -m "new commit"
-    nmap <leader>gs :!git status<CR>
-    nmap <leader>gv :!git --version<CR>
+    nnoremap <expr> <leader>ga ":!git add " . input("Git Files (Default: *): ")
+    nnoremap <expr> <leader>gc ":!git commit -m \"" . input("Git Commit Message: ") . "\""
+    nnoremap <leader>gs :!git status<CR>
+    nnoremap <leader>gv :!git --version<CR>
 " User Control
 " Find
     nmap <C-f>f :find ./
@@ -344,16 +456,11 @@ let vimcfg=vimhome . vimfldr
     nmap <leader>mi :imap<CR>
     nmap <leader>mn :nmap<CR>
     nmap <leader>mv :vmap<CR>
-
-"======================
-" Remap - VimRC Plugin 
-"====================== 
-" Open NERDTree
-    nmap <C-n> :NERDTreeToggle<CR>
-" Toggle Commenting and Uncommenting
-    vmap ++ <plug>NERDCommenterToggle
-    nmap ++ <plug>NERDCommenterToggle
-
+" Show
+    " VimRC
+        nnoremap <leader>svimrc :echo $MYVIMRC<CR>
+    " Help
+        nnoremap <expr> <leader>shelp ":help " . input("Help Topic: ") . "<CR>"
 
 "===========================
 " Operating System-specific 
@@ -362,19 +469,29 @@ let vimcfg=vimhome . vimfldr
 " File Type-specific Remap
 
 " C-based : Compile the current source file with gcc
-    autocmd FileType c execute 'nnoremap <buffer> ' . key_Compile . ' :w<CR>:!gcc % -o %:r.exe && echo " Compilation Successful." <CR>'
-    autocmd FileType c execute 'nnoremap <buffer> ' . key_Run . ' :!%:r.exe<CR>'
-    autocmd FileType c execute 'nnoremap <buffer> ' . key_Compile_Run . ' :w<CR>:!gcc % -o %:r.exe<CR> :!%:r.exe<CR>'
+    augroup CKeys autocmd FileType c
+        execute 'nnoremap <buffer> ' . key_Compile . ' :w<CR>:!gcc "%" -o "%:r".exe && echo " Compilation Successful." <CR>'
+        execute 'nnoremap <buffer> ' . key_Run . ' :!"%:r".exe<CR>'
+        execute 'nnoremap <buffer> ' . key_Compile_Run . ' :w<CR>:!gcc "%" -o "%:r".exe<CR> :!%:r.exe<CR>'
+    augroup END
 " C++-based : Compile the current source file with g++
-    autocmd FileType cpp execute 'nnoremap <buffer> ' . key_Compile . ' :w<CR>:!g++ "%" -o "%:r".exe && echo " Compilation Successful." <CR>'
-    autocmd FileType cpp execute 'nnoremap <buffer> ' . key_Run . ' :!"%:r".exe<CR>'
-    autocmd FileType cpp execute 'nnoremap <buffer> ' . key_Compile_Run . ' :w<CR>:!g++ "%" -o "%:r".exe<CR> :!"%:r".exe<CR>'
+    augroup CPPKeys autocmd FileType cpp
+        execute 'nnoremap <buffer> ' . key_Compile . ' :w<CR>:!g++ "%" -o "%:r".exe && echo " Compilation Successful." <CR>'
+        execute 'nnoremap <buffer> ' . key_Run . ' :!"%:r".exe<CR>'
+        execute 'nnoremap <buffer> ' . key_Compile_Run . ' :w<CR>:!g++ "%" -o "%:r".exe<CR> :!"%:r".exe<CR>'
+    augroup END
 " Python-based : Run with python the current source file without arguments
-    autocmd FileType python execute 'nnoremap <buffer> ' . key_Run . ' :w<CR>:!python %<CR>'
+    augroup PythonKeys autocmd FileType python 
+        execute 'nnoremap <buffer> ' . key_Run . ' :w<CR>:!python "%"<CR>'
+    augroup END
 " Shellscript : Run the current source file without arguments with Shell (Bash)
-    autocmd FileType sh execute 'nnoremap <buffer> ' . key_Run . ' :w<CR>:!./%<CR>'
+    augroup ShellscriptKeys autocmd FileType sh
+        execute 'nnoremap <buffer> ' . key_Run . ' :w<CR>:!./"%"<CR>'
+    augroup END
 " Batch-based : Run the current source file without arguments with batch
-    autocmd FileType dosbatch execute 'nnoremap <buffer> ' . key_Run . ' :w<CR>:!%<CR>'
+    augroup BatchKeys autocmd FileType dosbatch
+        execute 'nnoremap <buffer> ' . key_Run . ' :w<CR>:!"%"<CR>'
+    augroup END
 
 " Templates
 " - read : Read from the file and put into the buffer
@@ -382,6 +499,8 @@ let vimcfg=vimhome . vimfldr
     "   -1read : Change line by 1 (- : Remove | + : Add) when inserted
     "   3jwf>a : Positions the cursor exactly in the middle of the title brackets
 
+" Insert template based on current file
+    execute 'noremap <leader>sc ' . ':-1read ' . vimcfg . '/templates/skeleton.' . expand('%:e') . '<CR>' . '3jwf>a'
 " Insert html template from 'skeleton.html'
     execute 'noremap <leader>chtml ' . ':-1read ' . vimcfg . '/templates/skeleton.html' . '<CR>' . '3jwf>a'
 " Insert php template from 'skeleton.php'
@@ -422,6 +541,29 @@ let vimcfg=vimhome . vimfldr
 " Reindent the current file
     " Before entering the file
         " autocmd BufWritePre * :normal gg=G
+
+" Automatically Leave Insert Mode after 'updatetime' milliseconds of inactivity
+    autocmd CursorHoldI * stopinsert
+
+"------------------------------------------------------------------------
+
+"==========
+" Snippets
+"==========
+" Python Snippets Group
+    augroup PythonSnippets autocmd FileType python
+        iabbrev ifmain <CR>
+                \if __name__ == "__main__":<CR>
+                \main()
+    augroup END
+
+" Shellscript Snippets Group
+    augroup ShellscriptSnippets autocmd FileType sh
+        iabbrev ifmain <CR>
+                \if "${BASH_SOURCE[0]}" == "$0"; then
+                \main()
+                \fi
+    augroup END
 
 "------------------------------------------------------------------------
 

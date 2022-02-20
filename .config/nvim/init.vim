@@ -64,8 +64,8 @@ let $MYPLUGDIRECTORY=nvim_data_root . '/plugged'
 let fldrs_to_create=[
             \ vimcfg_dir . "/after", 
             \ vimcfg_dir . "/templates", 
-            \ vimcfg_dir . "/plug-configs", 
-            \ vimcfg_dir . "/plug-settings", 
+            \ vimcfg_dir . "/configs/plug-configs", 
+            \ vimcfg_dir . "/settings/plug-settings", 
             \ $MYPLUGDIRECTORY
             \ ]
 

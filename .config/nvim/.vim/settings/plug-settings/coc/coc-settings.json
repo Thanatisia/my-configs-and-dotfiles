@@ -1,0 +1,18 @@
+{
+    "explorer.width" : 30,
+    "explorer.icon.enableNerdfont" : true,
+    "explorer.icon.source" : "vim-devicons",
+    "explorer.previewAction.onHover" : false,
+    "explorer.keyMappings" : {
+        "<cr>" : ["expandable?", "expand", "open"],
+        "sv" : "open:vsplit",
+        "sh" : "open:hsplit",
+        "rn" : "rename",
+        "C" : "copyFile",
+        "D" : "delete",
+        "mf" : "addFile",
+        "md" : "addDirectory"
+    },
+    "explorer.file.showHiddenFiles": true,
+    "snippets.ultisnips.usePythonx": false
+}

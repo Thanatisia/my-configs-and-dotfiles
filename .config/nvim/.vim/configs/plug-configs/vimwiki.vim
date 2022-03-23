@@ -9,7 +9,7 @@
 " Set vimwiki settings
     let g:vimwiki_list = [
                     \ {
-                    \    'path' : g:vimcfg . '/plug-settings/vimwiki',
+                    \    'path' : g:vimcfg . '/settings/plug-settings/vimwiki',
                     \    'syntax' : 'markdown',
                     \    'ext' : '.md'    
                     \ }
@@ -18,3 +18,6 @@
 "===================
 " Plugin Remappings 
 "===================
+
+" Open Vimwiki
+    nnoremap <leader>vw <Leader>ww

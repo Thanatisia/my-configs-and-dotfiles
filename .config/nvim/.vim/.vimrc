@@ -13,6 +13,7 @@
 "   [6] : 2022-02-09 2004H, Asura
 "   [7] : 2022-02-13 2347H, Asura
 "   [8] : 2022-02-19 2318H, Asura
+"   [9] : 2022-03-24 0117H, Asura
 " Changelogs:
 "	[0] : Version 0.1.a.2022-01-25_2206H
 "		- Commented out gVim Windows default command (Uncomment to use)
@@ -67,6 +68,14 @@
 "           individual script files in 'plugin-configs' folder
 "       - Added setting to remove all errorbell sounds (i.e. when pressing escape in insert mode)
 "       - Moved plug install line of codes to 'plugin/experimental.vim' in a function
+"   [9] : Version 0.5.a.2022-03-24_0117H
+"       - Created a new Plugin segment 'Dependency-Specific' for Dependency-based plugins
+"           - Plugins that requires a specific external program to exist in your system
+"           - i.e.
+"               - vim-pandoc
+"               - lf
+"               - vifm.vim
+"               - fzf(.vim)
 "==========================================================================================
 
 "===========================
@@ -152,14 +161,14 @@ let g:vimcfg=vimhome . vimfldr
 "   list, or uncommenting it in the list
 " Syntax : Plug 'author/project', { 'key' : 'value' }
 
+    " Language-support
     " Colorscheme
     Plug 'morhetz/gruvbox'
     Plug 'crusoexia/vim-monokai'
     Plug 'ayu-theme/ayu-vim'
     Plug 'kyoz/purify', {'rtp' : 'vim'}
     Plug 'pgdouyon/vim-yin-yang'
-    " Tree File Browser
-    Plug 'ptzz/lf.vim'
+    " Tree File Browser 
     Plug 'scrooloose/nerdtree'
     " Font Pack
     "Plug 'be5invis/Iosevka'
@@ -170,8 +179,6 @@ let g:vimcfg=vimhome . vimfldr
     Plug 'airblade/vim-gitgutter'
     " Fuzzy File Finder
     Plug 'ctrlpvim/ctrlp.vim'
-    Plug 'junegunn/fzf', { 'dir' : g:vimcfg . '/plugins/.fzf' , 'do' : { -> fzf#install() } }
-    Plug 'junegunn/fzf.vim'
     " Multiline Commenter
     Plug 'scrooloose/nerdcommenter'
     " Status Line
@@ -181,15 +188,33 @@ let g:vimcfg=vimhome . vimfldr
     Plug 'neoclide/coc.nvim', {'branch' : 'release'}
     " Floating Terminal
     Plug 'voldikss/vim-floaterm'
+    " Programming Utility
+        " Web Development
+            Plug 'mattn/emmet-vim'
     " General Utility
     Plug 'liuchengxu/vim-which-key'
     Plug 'vimwiki/vimwiki'
+    " Plug 'mg979/vim-visual-multi', {'branch' : 'master'}
+    Plug 'Yggdroot/indentLine'
+    Plug 'mbbill/undotree'
+    Plug 'junegunn/goyo.vim'
     " Expansion Plugin
         " NERDTree Expansion Plugin
             Plug 'Xuyuanp/nerdtree-git-plugin'
             Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
         " nerd font
-            "Plug 'lambdalisue/nerdfont.vim'
+            Plug 'lambdalisue/nerdfont.vim'
+        " Vim-airline
+            Plug 'vim-airline/vim-airline-themes'
+    " Dependency-required
+        " Tree File Browser
+            Plug 'ptzz/lf.vim'
+            Plug 'istib/vifm.vim'
+        " Fuzzy File Finder
+            Plug 'junegunn/fzf', { 'dir' : g:vimcfg . '/plugins/.fzf' , 'do' : { -> fzf#install() } }
+            Plug 'junegunn/fzf.vim'
+        " General Utility
+            Plug 'kyoh86/vim-ripgrep'
     " Editor/Vim-flavor Specific
     if has('nvim')
         " Neovim Specific
@@ -211,16 +236,24 @@ let plugin_names = [
             \ 'ctrlp',
             \ 'fzf',
             \ 'fzf-vim',
+            \ 'goyo',
+            \ 'indentLine',
             \ 'lf-vim',
             \ 'nerdtree',
             \ 'purify',
             \ 'supertab',
+            \ 'undotree',
             \ 'vim-floaterm',
+            \ 'vifm',
+            \ 'vim-airline',
+            \ 'vim-airline-themes',
+            \ 'vim-ripgrep',
+            \ 'vimwiki',
+            \ 'vim-visual-multi',
             \ 'which-key',
-            \ 'vimwiki'
             \ ]
 
-let plugin_cfg_path = g:vimcfg . '/plug-configs/'
+let plugin_cfg_path = g:vimcfg . '/configs/plug-configs/'
 
 " Check if folder exists
 if !isdirectory(plugin_cfg_path)
@@ -282,7 +315,7 @@ endfor
 	syntax enable
 "Set Font
     "set guifont=Terminal
-    set guifont="Roboto Mono"
+    set guifont="Hack"
     "set guifont="Iosevka"
     set encoding=UTF-8
 "Set Tab Spaces to 4 spaces
@@ -330,6 +363,12 @@ endfor
     " :colorscheme monokai
     :colorscheme purify
 
+"GUI-Specific
+if has('gui_running')
+    "Turn off GUI White Popup in Neovim-Qt
+        GuiPopupmenu 0
+endif
+
 "------------------------------------------------------------------------
 
 "===========================
@@ -352,6 +391,8 @@ endfor
 " Quality of Life
     " Wrap selected texts in Quotation Marks '"'
         vnoremap " <esc>`>a"<esc>`<i"<esc>
+    " Clear last search highlighting
+        nnoremap <leader>shc :noh<CR>
 " Movement
 	vnoremap J :m '>+1<CR>gv=gv		
 	vnoremap K :m '<-2<CR>gv=gv		
@@ -457,10 +498,19 @@ endfor
     nmap <leader>mn :nmap<CR>
     nmap <leader>mv :vmap<CR>
 " Show
-    " VimRC
+    " Vim & VimRC
+        nnoremap <leader>svim :echo $VIM<CR>
+        nnoremap <leader>svimrt :echo $VIMRUNTIME<CR>
         nnoremap <leader>svimrc :echo $MYVIMRC<CR>
     " Help
         nnoremap <expr> <leader>shelp ":help " . input("Help Topic: ") . "<CR>"
+    " Fetch
+        nnoremap <expr> <leader>fetch ":echo 'Desktop Name :' $COMPUTERNAME '\|' <CR>"
+" File-type Control
+    " Change File type
+        nnoremap <expr> <leader>cft ":set filetype=" . input("File Type: ") . "<CR>"
+        nnoremap <expr> <leader>cfthtml ":set filetype=html<CR>"
+        nnoremap <expr> <leader>cftphp ":set filetype=php<CR>"
 
 "===========================
 " Operating System-specific 
@@ -499,18 +549,27 @@ endfor
     "   -1read : Change line by 1 (- : Remove | + : Add) when inserted
     "   3jwf>a : Positions the cursor exactly in the middle of the title brackets
 
+" Copy and Insert a file from a filepath of your choice
+    "execute 'nnoremap <leader>cp ' . ':-1read ' . input("File Path: ") . '<CR>' . '3jwf>a'
+    nnoremap <expr> <leader>cp ':-1read ' . input("File Path: ") . '<CR>' . '3jwf>a'
 " Insert template based on current file
-    execute 'noremap <leader>sc ' . ':-1read ' . vimcfg . '/templates/skeleton.' . expand('%:e') . '<CR>' . '3jwf>a'
+    " execute 'noremap <leader>sc ' . ':-1read ' . vimcfg . '/templates/skeleton.' . expand('%:e') . '<CR>' . '3jwf>a'
+    nnoremap <expr> <leader>sc ':-1read ' . g:vimcfg . '/templates/skeleton.' . expand('%:e') . '<CR>' . '3jwf>a'
 " Insert html template from 'skeleton.html'
-    execute 'noremap <leader>chtml ' . ':-1read ' . vimcfg . '/templates/skeleton.html' . '<CR>' . '3jwf>a'
+    " execute 'noremap <leader>chtml ' . ':-1read ' . vimcfg . '/templates/skeleton.html' . '<CR>' . '3jwf>a'
+    nnoremap <expr> <leader>chtml ':-1read ' . vimcfg . '/templates/skeleton.html' . '<CR>' . '3jwf>a'
 " Insert php template from 'skeleton.php'
-    execute 'noremap <leader>cphp ' . ':-1read ' . vimcfg . '/templates/skeleton.php' . '<CR>'
+    " execute 'noremap <leader>cphp ' . ':-1read ' . vimcfg . '/templates/skeleton.php' . '<CR>'
+    nnoremap <expr> <leader>cphp ':-1read ' . vimcfg . '/templates/skeleton.php' . '<CR>' . '3jwf>a'
 " Insert c template from 'skeleton.c'
-    execute 'noremap <leader>cc ' . ':-1read ' . vimcfg . '/templates/skeleton.c' . '<CR>'
+    " execute 'noremap <leader>cc ' . ':-1read ' . vimcfg . '/templates/skeleton.c' . '<CR>'
+    nnoremap <expr> <leader>cc ':-1read ' . vimcfg . '/templates/skeleton.c' . '<CR>' . '3jwf>a'
 " Insert cpp template from 'skeleton.cpp'
-    execute 'noremap <leader>ccpp ' . ':-1read ' . vimcfg . '/templates/skeleton.cpp' . '<CR>'
+    " execute 'noremap <leader>ccpp ' . ':-1read ' . vimcfg . '/templates/skeleton.cpp' . '<CR>'
+    nnoremap <expr> <leader>ccpp ':-1read ' . vimcfg . '/templates/skeleton.cpp' . '<CR>' . '3jwf>a'
 " Insert python template from 'skeleton.py'
-    execute 'noremap <leader>cpy ' . ':-1read ' . vimcfg . '/templates/skeleton.py' . '<CR>'
+    " execute 'noremap <leader>cpy ' . ':-1read ' . vimcfg . '/templates/skeleton.py' . '<CR>'
+    nnoremap <expr> <leader>cpy ':-1read ' . vimcfg . '/templates/skeleton.py' . '<CR>' . '3jwf>a'
 
 "------------------------------------------------------------------------
 

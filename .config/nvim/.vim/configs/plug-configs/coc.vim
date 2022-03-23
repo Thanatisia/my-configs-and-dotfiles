@@ -7,13 +7,12 @@
 " Functions 
 "===========
 
-        
 "=================
 " Plugin Settings
 "=================
     if has('win32') 
         "let g:coc_config_home = './data/nvim/coc' "Set coc's config home path to make it portable
-        let g:coc_config_home = g:vimcfg . "/plug-settings/coc"
+        let g:coc_config_home = g:vimcfg . "/settings/plug-settings/coc"
     endif
 
     " Set COC extensions
@@ -35,7 +34,7 @@
                     \ ]
 
     " coc-explorer
-    
+
     " coc-snippets
         " let g:coc_snippet_next = '<c-s>n'
         " let g:coc_snippet_prev = '<c-s>p'
@@ -69,4 +68,4 @@
             " Markdown-Typed
                 " coc-markdown-preview-enhanced
                     autocmd FileType md nnoremap <leader>cocmp :CocCommand markdown-preview-enhanced.openPreview<CR>
-            
+

@@ -1,14 +1,11 @@
 # My Dotfiles
 
-Contains config and dotfiles of profiles for ricing and backup
+These are the links to all my dotfiles 
 
 ## Table of Contents
-Links
+Repositories
 
-## Links
-* All Configs : [.config](.config/README.md)
-
-* [Neovim](.config/nvim/README.md)
-
-* [Vim](.config/vim/README.md)
-
+## Repositores
+* [Main](https://github.com/Thanatisia/dotfiles)
+* [ArchLinux - Test Build](https://github.com/Thanatisia/arch-dotfiles)
+* [Debian - Test Build](https://github.com/Thanatisia/debian-dotfiles)
